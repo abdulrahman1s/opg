@@ -309,6 +309,7 @@ pub struct Field {
     pub inline: bool,
     pub nullable: bool,
     pub explicit_model_type: Option<ExplicitModelType>,
+    pub custom: Option<String>,
 }
 
 impl Field {
@@ -322,6 +323,7 @@ impl Field {
         let mut description = Attr::none(cx, DESCRIPTION);
         let mut format = Attr::none(cx, FORMAT);
         let mut example = Attr::none(cx, EXAMPLE);
+        let mut custom = Attr::none(cx, CUSTOM);
         let mut inline = BoolAttr::none(cx, INLINE);
         let mut nullable = BoolAttr::none(cx, NULLABLE);
         let mut model_type = OneOfFlagsAttr::none(cx);
@@ -375,6 +377,13 @@ impl Field {
                         example.set(&m.path, lit_str_expr(s))
                     }
                 }
+
+                (AttrFrom::Opg, Meta(NameValue(m))) if m.path == CUSTOM => {
+                    if let Ok(s) = get_lit_str(cx, CUSTOM, &m.lit) {
+                        custom.set(&m.path, s.value().clone());
+                    }
+                }
+
                 (AttrFrom::Opg, Meta(NameValue(m))) if m.path == EXAMPLE_WITH => {
                     if let Ok(expr) = parse_lit_into_expr(cx, EXAMPLE_WITH, &m.lit) {
                         example.set(&m.path, expr);
@@ -416,6 +425,7 @@ impl Field {
             example: example.get(),
             inline: inline.get(),
             nullable: nullable.get(),
+            custom: custom.get(),
             explicit_model_type: model_type.at_most_one(),
         }
     }

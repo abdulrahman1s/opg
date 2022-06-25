@@ -16,6 +16,7 @@ define_symbols! {
     EXAMPLE_WITH => "example_with",
     FORMAT => "format",
     DESCRIPTION => "description",
+    CUSTOM => "custom",
 
     // flags
     STRING => "string",

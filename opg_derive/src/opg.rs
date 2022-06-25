@@ -675,6 +675,12 @@ fn field_model_reference<'a>(
 ) -> proc_macro2::TokenStream {
     let type_name = &field.original.ty;
 
+    if let Some(custom) = &field.attrs.custom {
+        return quote! {
+            _opg::ModelReference::Link(String::from(#custom))
+        };
+    }
+
     match field.attrs.explicit_model_type {
         Some(explicit_model_type) if explicit_model_type != ExplicitModelType::Any => {
             let model = newtype_model(field.attrs.nullable, context_params, explicit_model_type);
