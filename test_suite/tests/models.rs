@@ -270,31 +270,30 @@ required:
         );
     }
 
-
     #[test]
 
     fn custom_reference_field() {
-      #[derive(Serialize, OpgModel)]
-      #[opg("Custom type description", format = "uuid", example = "000-000")]
-      struct CustomType(String);
+        #[derive(Serialize, OpgModel)]
+        #[opg("Custom type description", format = "uuid", example = "000-000")]
+        struct CustomType(String);
 
-      #[derive(Serialize)]
-      struct UnSupportedType {
-        inner: String
-      }
+        #[derive(Serialize)]
+        struct UnSupportedType {
+            inner: String,
+        }
 
-      #[derive(Serialize, OpgModel)]
-      struct CustomStruct {
-         id: u64,
-         #[opg(reference = "CustomType")]
-         data: UnSupportedType
-      }
+        #[derive(Serialize, OpgModel)]
+        struct CustomStruct {
+            id: u64,
+            #[opg(reference = "CustomType")]
+            data: UnSupportedType,
+        }
 
-      let cx = &mut Components::default();
+        let cx = &mut Components::default();
 
-      assert_eq!(
-        serde_yaml::to_string(&CustomStruct::get_schema(cx)).unwrap(),
-        r##"---
+        assert_eq!(
+            serde_yaml::to_string(&CustomStruct::get_schema(cx)).unwrap(),
+            r##"---
 type: object
 properties:
   data:
@@ -305,7 +304,8 @@ properties:
 required:
   - id
   - data
-"##);
+"##
+        );
     }
 
     #[test]
