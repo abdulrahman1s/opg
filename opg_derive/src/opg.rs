@@ -675,9 +675,9 @@ fn field_model_reference<'a>(
 ) -> proc_macro2::TokenStream {
     let type_name = &field.original.ty;
 
-    if let Some(custom) = &field.attrs.custom {
+    if let Some(reference) = &field.attrs.reference {
         return quote! {
-            _opg::ModelReference::Link(String::from(#custom))
+            _opg::ModelReference::Link(String::from(#reference))
         };
     }
 
