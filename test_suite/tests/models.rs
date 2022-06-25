@@ -285,7 +285,7 @@ required:
         #[derive(Serialize, OpgModel)]
         struct CustomStruct {
             id: u64,
-            #[opg(reference = "CustomType")]
+            #[opg(custom = "CustomType")]
             data: UnSupportedType,
         }
 
@@ -306,6 +306,8 @@ required:
   - data
 "##
         );
+
+        assert!(cx.schemas.contains_key("CustomType"));
     }
 
     #[test]

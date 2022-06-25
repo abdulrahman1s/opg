@@ -675,9 +675,11 @@ fn field_model_reference<'a>(
 ) -> proc_macro2::TokenStream {
     let type_name = &field.original.ty;
 
-    if let Some(reference) = &field.attrs.reference {
+    if let Some(custom) = &field.attrs.custom {
+        let context_params = context_params.tokenize();
+
         return quote! {
-            _opg::ModelReference::Link(String::from(#reference))
+            cx.mention_schema::<#custom>(#inline, &#context_params)
         };
     }
 
