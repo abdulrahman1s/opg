@@ -50,6 +50,7 @@ impl_opg_model!(generic_simple(?Sized): std::rc::Rc<T>);
 impl_opg_model!(generic_simple(?Sized): std::sync::Arc<T>);
 impl_opg_model!(generic_simple(?Sized): std::cell::Cell<T>);
 impl_opg_model!(generic_simple(?Sized): std::cell::RefCell<T>);
+impl_opg_model!(generic_simple(?Sized): sqlx::types::Json<T>);
 
 impl_opg_model!(generic_simple(nullable): Option<T>);
 

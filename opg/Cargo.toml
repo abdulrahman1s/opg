@@ -17,13 +17,15 @@ serde = { version = "1", features = ["derive"] }
 either = "1.5"
 uuid = { version = "0.8", optional = true }
 chrono = { version = "0.4", optional = true }
+sqlx = { version = "*", default-features = false, features = ["json"] }
 
 [dev-dependencies]
 opg_derive = { version = "0.1", path = "../opg_derive" }
 
 [features]
-default = ["const_generics"]
+default = ["const_generics", "runtime-tokio-rustls"]
 const_generics = []
+runtime-tokio-rustls = ["sqlx/runtime-tokio-rustls"]
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]
